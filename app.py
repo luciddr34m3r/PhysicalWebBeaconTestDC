@@ -9,12 +9,14 @@ from flask_sqlalchemy import SQLAlchemy
 # Load system configurations
 DEBUG = config.DEBUG
 SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI
+SQLALCHEMY_TRACK_MODIFICATIONS = config.SQLALCHEMY_TRACK_MODIFICATIONS
 
 # Load user agent configurations
 USER_AGENTS = useragents.USER_AGENTS
 
 # Initialize the application
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 

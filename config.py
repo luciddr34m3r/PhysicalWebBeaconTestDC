@@ -12,4 +12,4 @@ else:
     DEBUG = True
 
 # General settings
-
+SQLALCHEMY_TRACK_MODIFICATIONS = False
