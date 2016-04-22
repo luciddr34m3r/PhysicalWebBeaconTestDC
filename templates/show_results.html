@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Flaskr</title>
+  </head>
+  <body>
+    <div class=page>
+      <table>
+        <tr>
+          <th>Timestamp</th>
+          <th>Source IP</th>
+          <th>UserAgent</th>
+          <th>Beacon ID</th>
+        </tr>
+        {% for hit in hits %}
+        <tr>
+          <td>{{ hit.timestamp }} </td>
+          <td>{{ hit.ip }} </td>
+          <td>{{ hit.useragent }} </td>
+          <td><a href="{{ url_for('results', beacon_id=hit.beaconid)}}">{{ hit.beaconid }}</a> </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>
