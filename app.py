@@ -29,32 +29,35 @@ class SiteHit(db.Model):
     ip = db.Column(db.String(255))
     useragent = db.Column(db.String(255))
     beaconid = db.Column(db.Integer)
-  
+
     def __init__(self, timestamp, ip, useragent, beaconid):
         self.timestamp = timestamp
         self.ip = ip
         self.useragent = useragent
         self.beaconid = beaconid
 
+
 # Default route
 @app.route('/')
 def index():
 
-    # TODO: Where would we like to redirect here? Metrohero?
-    return 'Test post, please ignore.'
+    # Bounce to a nice non-commercial tourist map
+    return redirect('http://washington.org/dc-map')
 
+
+# Beacon target
 @app.route('/<int:beacon_id>')
 def log_interaction(beacon_id):
     # Log the beacon interaction
     toLog = {}
-    
+
     # Get the current time
     ts = time.time()
     toLog['timestamp'] = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
     # Pull the source IP
     toLog['ip'] = request.remote_addr
-    
+
     # Pull the user agent
     toLog['ua'] = request.headers.get('User-Agent')
 
@@ -64,9 +67,10 @@ def log_interaction(beacon_id):
     # Commit the record
     db.session.add(newHit)
     db.session.commit()
-    
+
     # Now that it's logged, send them somewhere else
     return redirect(url_for('index'))
+
 
 # Show results page
 @app.route('/results/')
@@ -76,14 +80,12 @@ def results(beacon_id=-1):
         hits = SiteHit.query.all()
     else:
         hits = SiteHit.query.filter_by(beaconid=beacon_id)
-    
+
     return render_template('show_results.html', hits=hits)
-    
-    
+
+
 # Initialize the db if it is not already
 db.create_all()
 
 if __name__ == '__main__':
     app.run(debug=DEBUG)
-    
-    
