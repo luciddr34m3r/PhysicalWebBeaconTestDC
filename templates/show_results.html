@@ -26,10 +26,6 @@
       </table>
     </div>
   </body>
-<script type="text/javascript">
-  var chart_data = {{ chart_data|safe }};
-  AGENT_FREQUENCY = document.getElementById('agent_frequency');
-  Plotly.plot( AGENT_FREQUENCY, [chart_data], {margin: { t: 0 } } );
-</script>
-<!--<script src="{{url_for('static', filename='agent_frequency.js') }}"></script>-->
+<script type="text/javascript">var chart_data = {{ chart_data|safe }};</script>
+<script src="{{url_for('static', filename='agent_frequency.js') }}"></script>
 </html>
