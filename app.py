@@ -86,10 +86,10 @@ def results(beacon_id=-1):
 
     chart_data = {"x": [], "y": []}
     for agent, freq in agent_freq:
-        chart_data["x"].append(agent)
+        chart_data["x"].append(str(agent))
         chart_data["y"].append(freq)
 
-    chart_data = {"x": ["a", "b", "c"], "y": [1, 2, 3]}
+    #chart_data = {"x": [str(u"a"), str(u"b"), str(u"c")], "y": [1, 2, 3]}
     print(chart_data)
     return render_template('show_results.html', hits=hits, chart_data=chart_data)
 
