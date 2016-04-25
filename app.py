@@ -5,6 +5,7 @@ import config
 
 from flask import Flask, request, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 
 # Load system configurations
 DEBUG = config.DEBUG
@@ -78,10 +79,19 @@ def log_interaction(beacon_id):
 def results(beacon_id=-1):
     if beacon_id == -1:
         hits = SiteHit.query.all()
+        agent_freq = db.session.query(SiteHit.useragent, func.count(SiteHit.useragent)).group_by(SiteHit.useragent).all()
     else:
         hits = SiteHit.query.filter_by(beaconid=beacon_id)
+        agent_freq = db.session.query(SiteHit.useragent, func.count(SiteHit.useragent)).filter_by(beaconid=beacon_id).group_by(SiteHit.useragent).all()
 
-    return render_template('show_results.html', hits=hits)
+    chart_data = {"x": [], "y": []}
+    for agent, freq in agent_freq:
+        chart_data["x"].append(agent)
+        chart_data["y"].append(freq)
+
+    chart_data = {"x": ["a", "b", "c"], "y": [1, 2, 3]}
+    print(chart_data)
+    return render_template('show_results.html', hits=hits, chart_data=chart_data)
 
 
 # Initialize the db if it is not already

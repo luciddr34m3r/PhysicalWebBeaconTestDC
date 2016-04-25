@@ -2,10 +2,12 @@
 <html>
   <head>
     <title>Flaskr</title>
-     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+      <script src="{{url_for('static', filename='plotly-latest.min.js') }}"></script>
+      
   </head>
   <body>
-    <div id="tester" style="width:600px;height:250px;"></div>
+    <div>{{ chart_data }}</div>
+    <div id="agent_frequency" style="width:600px;height:250px;"></div>
     <div class=page>
       <table>
         <tr>
@@ -25,6 +27,12 @@
       </table>
     </div>
   </body>
-
-<script src="{{url_for('static', filename='daily_hits.js') }}"></script>
+<script type="text/javascript">
+  var chart_data = {{ chart_data|safe }};
+  alert(chart_data.x);
+  alert(chart_data.y);
+  AGENT_FREQUENCY = document.getElementById('agent_frequency');
+  Plotly.plot( AGENT_FREQUENCY, [chart_data], {margin: { t: 0 } } );
+</script>
+<!--<script src="{{url_for('static', filename='agent_frequency.js') }}"></script>-->
 </html>
